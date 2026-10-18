@@ -1,0 +1,189 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>เซ็ตอัปโต๊ะของโกดี้</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: หัวเรื่องใหญ่ชิดซ้ายพร้อมตัวเลขสรุป → แถบกรองหมวด → การ์ดสินค้ารูปใหญ่ (ชิ้นแรกกว้างสองช่องบนจอใหญ่) → แถบลิสต์ติดล่างจอ */
+:root{
+  --bg:#eceef3;
+  --surface:#ffffff;
+  --fg:#141728;
+  --muted:#586075;
+  --line:#d6dae4;
+  --accent:#5a35e0;
+  --accent-fg:#ffffff;
+  --tint:#e6e0fb;
+  --photo:#ffffff;
+  --font-display:"Anuphan","IBM Plex Sans Thai",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans Thai",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11101a;--surface:#1a1927;--fg:#ecebf6;--muted:#a3a1ba;--line:#2e2c42;
+    --accent:#a897ff;--accent-fg:#150f33;--tint:#2a2450;--photo:#ffffff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11101a;--surface:#1a1927;--fg:#ecebf6;--muted:#a3a1ba;--line:#2e2c42;
+  --accent:#a897ff;--accent-fg:#150f33;--tint:#2a2450;--photo:#ffffff;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.6;
+  padding-block:40px 120px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+header{display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-size:13px;letter-spacing:.1em;font-weight:600;color:var(--accent)}
+h1{font-family:var(--font-display);font-size:clamp(40px,9vw,84px);line-height:1.05;margin:0;font-weight:700;text-wrap:balance;letter-spacing:-.01em}
+.lead{margin:0;color:var(--muted);max-width:52ch;font-size:17px}
+.facts{display:flex;flex-wrap:wrap;gap:12px 32px;padding-top:4px}
+.facts div{display:flex;flex-direction:column;line-height:1.3}
+.facts b{font-family:var(--font-display);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.facts span{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:7px 16px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip:focus-visible,.btn:focus-visible,.add:focus-visible,.clear:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.card.picked{outline:2px solid var(--accent);outline-offset:-1px}
+.photo{background:var(--photo);aspect-ratio:1/1;max-width:100%;display:block;position:relative}
+.photo img{width:100%;height:100%;object-fit:contain;display:block}
+.body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1;min-width:0}
+.cat{font-size:12px;letter-spacing:.08em;color:var(--accent);font-weight:600}
+.card h2{font-family:var(--font-display);font-size:22px;line-height:1.25;margin:0;font-weight:600;overflow-wrap:anywhere}
+.specs{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;color:var(--muted);font-size:14.5px;flex:1}
+.specs li{padding-left:16px;position:relative}
+.specs li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:2px;background:var(--accent)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:6px}
+.btn,.add{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:10px 16px;cursor:pointer;text-decoration:none;text-align:center;border:1px solid var(--accent)}
+.btn{background:var(--accent);color:var(--accent-fg);flex:1}
+.add{background:transparent;color:var(--accent)}
+.add[aria-pressed="true"]{background:var(--tint)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+@media (min-width:760px){
+  .card.hero{grid-column:span 2;flex-direction:row}
+  .card.hero .photo{width:50%;aspect-ratio:auto;min-height:100%}
+  .card.hero .body{justify-content:center;padding:28px}
+  .card.hero h2{font-size:30px}
+}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);
+  padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  display:flex;justify-content:center}
+.bar-in{width:100%;max-width:1080px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sum{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.sum strong{font-family:var(--font-display);font-size:18px}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.links a{font-size:13px;color:var(--accent);text-decoration:underline;overflow-wrap:anywhere}
+.clear{font:inherit;font-size:14px;background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;padding:8px}
+.clear[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:hover{transform:translateY(-2px)}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ของที่ฉันใช้จริง</div>
+    <h1>เซ็ตอัปโต๊ะ<br>ของฉัน</h1>
+    <p class="lead">ไมค์ คีย์บอร์ด หูฟัง ไฟ และอะแดปเตอร์ WiFi ที่วางอยู่บนโต๊ะฉันทุกวัน อยากได้ชิ้นไหนกดไปสั่งซื้อที่ช้อปปี้ได้เลย</p>
+    <div class="facts">
+      <div><b id="n-items">5</b><span>ชิ้นที่ใช้จริง</span></div>
+      <div><b>Shopee</b><span>สั่งซื้อผ่านลิงก์ที่แนบ</span></div>
+    </div>
+  </header>
+
+  <div class="chips" id="chips" role="group" aria-label="กรองตามหมวด"></div>
+  <main class="grid" id="grid"></main>
+  <p class="hint">ราคาและโปรโมชันดูที่หน้าสินค้าในช้อปปี้ ซึ่งอาจเปลี่ยนตามช่วงเวลา</p>
+</div>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="sum">
+      <strong id="count">ยังไม่ได้เลือกรายการ</strong>
+      <div class="links" id="links"></div>
+    </div>
+    <button class="clear" id="clear" hidden>ล้างที่เลือก</button>
+  </div>
+</div>
+
+<script>
+/* แก้รายการตรงนี้ได้ */
+var ITEMS = [
+  {name:"HyperX SoloCast 2", cat:"ไมค์สตรีม", img:"img/a1.jpg", link:"https://s.shopee.co.th/3B8A9eLlTv",
+   specs:["ไมค์ USB เสียบแล้วใช้ได้เลย ไม่ต้องมีอุปกรณ์เสริม","แตะเบา ๆ เพื่อปิดไมค์ มีไฟ LED บอกสถานะ","มีระบบกันสั่นและฟิลเตอร์กันลม","ประกันศูนย์ไทย 2 ปี"]},
+  {name:"EGA Type CMK14", cat:"คีย์บอร์ด", img:"img/a2.jpg", link:"https://s.shopee.co.th/30okvFwKLd",
+   specs:["แมคคานิคอล ไฟ RGB ปุ่มใสโปร่งแสง","มีจอเล็กและปุ่มหมุนด้านขวา","ปุ่มภาษาไทยและอังกฤษ","ประกัน 2 ปี ออกใบกำกับภาษีได้"]},
+  {name:"หูฟังเกมมิ่งไร้สาย มีไมค์บูม", cat:"หูฟัง", img:"img/a3.jpg", link:"https://s.shopee.co.th/6fi6U8iPaB",
+   specs:["ครอบหู สีดำคาดม่วง","มีไมค์บูมพับเก็บได้"]},
+  {name:"อะแดปเตอร์ WiFi USB", cat:"เครือข่าย", img:"img/a4.jpg", link:"https://s.shopee.co.th/6fi6UOKLlL",
+   specs:["รองรับ 2 ย่านความถี่ 2.4GHz และ 5GHz","5GHz เร็วและรบกวนน้อย 2.4GHz สัญญาณทะลุผนังได้ดี","มีเสาอากาศสำหรับรับสัญญาณ"]},
+  {name:"ไฟ LED 11 นิ้ว พร้อมขาตั้ง", cat:"ไฟ", img:"img/a5.jpg", link:"https://s.shopee.co.th/1W00Kz6nTc",
+   specs:["ไฟแผ่นสี่เหลี่ยม ปรับอุณหภูมิสีได้ 2700K ถึง 6500K","มีรีโมทคอนโทรล","ขาตั้งปรับความสูงได้ 70 ถึง 210 ซม."]}
+];
+
+var picked = {}, active = "ทั้งหมด";
+var grid = document.getElementById("grid");
+var chipsEl = document.getElementById("chips");
+document.getElementById("n-items").textContent = ITEMS.length;
+
+function renderChips(){
+  var cats = ["ทั้งหมด"];
+  ITEMS.forEach(function(i){ if(cats.indexOf(i.cat) < 0) cats.push(i.cat); });
+  chipsEl.innerHTML = "";
+  cats.forEach(function(c){
+    var b = document.createElement("button");
+    b.className = "chip"; b.textContent = c;
+    b.setAttribute("aria-pressed", c === active ? "true" : "false");
+    b.onclick = function(){ active = c; renderChips(); renderGrid(); };
+    chipsEl.appendChild(b);
+  });
+}
+
+function renderGrid(){
+  grid.innerHTML = "";
+  var first = true;
+  ITEMS.forEach(function(it, idx){
+    if(active !== "ทั้งหมด" && it.cat !== active) return;
+    var el = document.createElement("article");
+    el.className = "card" + (picked[idx] ? " picked" : "") + ((first && active === "ทั้งหมด") ? " hero" : "");
+    first = false;
+    el.innerHTML = '<div class="photo"><img alt=""></div><div class="body"><div class="cat"></div><h2></h2><ul class="specs"></ul><div class="actions"></div></div>';
+    var img = el.querySelector("img"); img.src = it.img; img.alt = it.name; img.loading = "lazy";
+    el.querySelector(".cat").textContent = it.cat;
+    el.querySelector("h2").textContent = it.name;
+    var ul = el.querySelector(".specs");
+    it.specs.forEach(function(s){ var li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
+    var a = document.createElement("a");
+    a.className = "btn"; a.href = it.link; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = "ไปสั่งซื้อ";
+    var t = document.createElement("button");
+    t.className = "add"; t.textContent = picked[idx] ? "เลือกแล้ว" : "เพิ่มในลิสต์";
+    t.setAttribute("aria-pressed", picked[idx] ? "true" : "false");
+    t.onclick = function(){ if(picked[idx]) delete picked[idx]; else picked[idx] = true; renderGrid(); renderSum(); };
+    var act = el.querySelector(".actions");
+    act.appendChild(t); act.appendChild(a);
+    grid.appendChild(el);
+  });
+}
+
+function renderSum(){
+  var keys = Object.keys(picked), box = document.getElementById("links");
+  document.getElementById("count").textContent = keys.length ? ("เลือกไว้ " + keys.length + " รายการ") : "ยังไม่ได้เลือกรายการ";
+  box.innerHTML = "";
+  keys.forEach(function(k){
+    var a = document.createElement("a");
+    a.href = ITEMS[k].link; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = ITEMS[k].name;
+    box.appendChild(a);
+  });
+  document.getElementById("clear").hidden = !keys.length;
+}
+document.getElementById("clear").onclick = function(){ picked = {}; renderGrid(); renderSum(); };
+
+renderChips(); renderGrid(); renderSum();
+</script>
+
+</body></html>
